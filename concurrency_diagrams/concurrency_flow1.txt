@@ -1,0 +1,20 @@
+title Два користувачі одночасно додають однакову пару їжі до категорії "Seafood"
+
+actor Користувач1
+actor Користувач2
+participant "PairingService" as Pairing
+participant "Database" as DB
+participant "NotificationService" as Notify
+
+Користувач1->Pairing: Запит на додавання (Beer: IPA, Food: Shrimp)
+Pairing->DB: Перевірка існування пари
+Користувач2->Pairing: Запит на додавання (Beer: IPA, Food: Shrimp)
+Pairing->DB: Перевірка існування пари
+
+Pairing->DB: Додавання пари (Користувач1)
+DB-->Pairing: Додано успішно
+Pairing->Notify: Повідомлення Користувачу1 про успіх
+
+Pairing->DB: Спроба додати (Користувач2)
+DB-->Pairing: Помилка – пара вже існує
+Pairing->Notify: Повідомлення Користувачу2 про дублікат

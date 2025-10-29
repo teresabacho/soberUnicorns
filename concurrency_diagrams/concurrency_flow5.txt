@@ -1,0 +1,18 @@
+title Система та користувач одночасно оновлюють рекомендації
+
+actor Користувач
+participant "RecommendationService" as Reco
+participant "AIEngine" as AI
+participant "Database" as DB
+participant "CacheService" as Cache
+
+AI->Reco: Автоматичне оновлення рекомендацій
+Користувач->Reco: Ручне оновлення рекомендацій
+
+Reco->DB: Отримати останні пари
+Reco->AI: Обчислити нові рекомендації
+AI-->Reco: Нові результати
+
+Reco->Cache: Оновлення кешу
+DB-->Reco: Дані для користувача
+Reco-->Користувач: Відображення оновлених рекомендацій

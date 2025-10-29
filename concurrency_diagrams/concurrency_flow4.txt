@@ -1,0 +1,19 @@
+title Два адміністратори одночасно створюють категорію "Spicy Food"
+
+actor Адмін1
+actor Адмін2
+participant "CategoryService" as Category
+participant "Database" as DB
+participant "NotificationService" as Notify
+
+Адмін1->Category: Запит створити категорію "Spicy Food"
+Адмін2->Category: Запит створити категорію "Spicy Food"
+Category->DB: Перевірка наявності
+Category->DB: Перевірка наявності
+
+Category->DB: Додавання нової категорії (Адмін1)
+DB-->Category: Успішно
+
+Category->DB: Спроба додати (Адмін2)
+DB-->Category: Категорія вже існує
+Category->Notify: Повідомлення Адмін2 про помилку
